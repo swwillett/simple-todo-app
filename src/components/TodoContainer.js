@@ -27,11 +27,12 @@ const TodoContainer = () => {
     },
   ]);
 
-  const handleChange = (id) => {
+  const handleChange = (id, newCompleted, newTitle) => {
     setTodos(
       todos.map((todo) => {
         if (todo.id === id) {
-          todo.completed = !todo.completed;
+          todo.completed = newCompleted;
+          todo.title = newTitle;
         }
         return todo;
       })
