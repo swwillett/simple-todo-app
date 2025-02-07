@@ -7,32 +7,23 @@ const completedStyle = {
   textDecoration: "line-through",
 };
 
-const TodoItemDisplay = ({
-  todo,
-  onEdit,
-  handleChangeProps,
-  deleteTodoProps,
-}) => {
-  const { completed, id, title } = todo;
+const TodoItemDisplay = ({ todo, onEdit, deleteTodoProps }) => {
+  const { status, id, title } = todo;
 
   return (
     <li className="todo-item">
-      <input
-        type="checkbox"
-        checked={completed}
-        onChange={() => handleChangeProps(id, !completed, title)}
-      />
       <button onClick={() => deleteTodoProps(id)}>Delete</button>
-      {!completed ? <button onClick={onEdit}>Edit</button> : <></>}
-      <span style={completed ? completedStyle : null}>{title}</span>
+      {status != "done" ? <button onClick={onEdit}>Edit</button> : <></>}
+      <span style={status === "done" ? completedStyle : null}>{title}</span>
     </li>
   );
 };
 
 const TodoItemEdit = ({ todo, onSave, onCancel }) => {
-  const { id, title } = todo;
+  const { id, title, status } = todo;
 
   const [newTitle, setNewTitle] = useState(title);
+  const [newStatus, setNewStatus] = useState(status);
 
   return (
     <li className="todo-item">
@@ -42,17 +33,22 @@ const TodoItemEdit = ({ todo, onSave, onCancel }) => {
         onChange={(e) => setNewTitle(e.target.value)}
         value={newTitle}
       />
-      <button onClick={() => onSave(id, newTitle)}>Save</button>
+      <select value={newStatus} onChange={(e) => setNewStatus(e.target.value)}>
+        <option value="todo">Todo</option>
+        <option value="in-progress">In Progress</option>
+        <option value="done">Done</option>
+      </select>
+      <button onClick={() => onSave(id, newStatus, newTitle)}>Save</button>
       <button onClick={onCancel}>Cancel</button>
     </li>
   );
 };
 
-const TodoItem = ({ todo, handleChangeProps, deleteTodoProps }) => {
+const TodoItem = ({ todo, updateTodoItem, deleteTodoProps }) => {
   const [isEditing, setIsEditing] = useState(false);
 
-  const onSave = (id, newTitle) => {
-    handleChangeProps(id, todo.completed, newTitle);
+  const onSave = (id, newStatus, newTitle) => {
+    updateTodoItem(id, newStatus, newTitle);
     setIsEditing(false);
   };
 
@@ -70,7 +66,6 @@ const TodoItem = ({ todo, handleChangeProps, deleteTodoProps }) => {
     <TodoItemDisplay
       todo={todo}
       onEdit={onEdit}
-      handleChangeProps={handleChangeProps}
       deleteTodoProps={deleteTodoProps}
     />
   );

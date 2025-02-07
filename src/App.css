@@ -9,7 +9,7 @@ body {
   color: #1f1f1f;
 }
 .container {
-  max-width: 700px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 10px;
 }
@@ -44,9 +44,11 @@ body {
 .todo-item {
   list-style-type: none;
   padding: 17px 0px;
+  width: 100%;
   border-bottom: 1px solid #eaeaea;
 }
 .todo-item input {
+  width: 40%;
   margin-right: 15px;
 }
 .todo-item button {
@@ -57,4 +59,19 @@ body {
   cursor: pointer;
   float: right;
   outline: none;
+  margin-left: 5px;
+}
+
+.todo-columns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.todo-list {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

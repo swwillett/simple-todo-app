@@ -11,27 +11,27 @@ const TodoContainer = () => {
       // id: uuid.v4(),
       id: uuidv4(),
       title: "Setup development environment",
-      completed: true,
+      status: "todo",
     },
     {
       // id: uuid.v4(),
       id: uuidv4(),
       title: "Develop website and add content",
-      completed: false,
+      status: "in-progress",
     },
     {
       // id: uuid.v4(),
       id: uuidv4(),
       title: "Deploy to live server",
-      completed: false,
+      status: "todo",
     },
   ]);
 
-  const handleChange = (id, newCompleted, newTitle) => {
+  const updateTodoItem = (id, newStatus, newTitle) => {
     setTodos(
       todos.map((todo) => {
         if (todo.id === id) {
-          todo.completed = newCompleted;
+          todo.status = newStatus;
           todo.title = newTitle;
         }
         return todo;
@@ -52,7 +52,7 @@ const TodoContainer = () => {
       // id: uuid.v4(),
       id: uuidv4(),
       title: title,
-      completed: false,
+      status: "todo",
     };
     setTodos([...todos, newTodo]);
   };
@@ -61,11 +61,26 @@ const TodoContainer = () => {
     <div className="container">
       <Header />
       <InputTodo addTodoProps={addTodoItem} />
-      <TodosList
-        todos={todos}
-        handleChangeProps={handleChange}
-        deleteTodoProps={delTodo}
-      />
+      <div className="todo-columns">
+        <TodosList
+          title="Todo"
+          todos={todos.filter(({ status }) => status === "todo")}
+          updateTodoItem={updateTodoItem}
+          deleteTodoProps={delTodo}
+        />
+        <TodosList
+          title="In Progress"
+          todos={todos.filter(({ status }) => status === "in-progress")}
+          updateTodoItem={updateTodoItem}
+          deleteTodoProps={delTodo}
+        />
+        <TodosList
+          title="Done"
+          todos={todos.filter(({ status }) => status === "done")}
+          updateTodoItem={updateTodoItem}
+          deleteTodoProps={delTodo}
+        />
+      </div>
     </div>
   );
 };
