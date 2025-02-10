@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "cypress": "^14.0.2",
     "react": "^16.11.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dnd": "^16.0.1",
